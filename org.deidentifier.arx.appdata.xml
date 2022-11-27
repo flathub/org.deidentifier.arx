@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <!--Created with jdAppdataEdit 3.3-->
   <id>org.deidentifier.arx</id>
@@ -28,6 +28,7 @@ ARX is able to handle large datasets on commodity hardware and it features an in
     </screenshot>
   </screenshots>
   <releases>
+    <release version="v3.9.1" date="2022-11-27"/>
     <release version="v3.8.0" date="2019-11-17" type="stable">
       <url>https://github.com/arx-deidentifier/arx/releases/tag/v3.8.0</url>
     </release>
