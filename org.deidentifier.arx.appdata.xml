@@ -24,7 +24,7 @@ ARX is able to handle large datasets on commodity hardware and it features an in
   <screenshots>
     <screenshot type="default">
       <caption>ARX on GNU/Linux</caption>
-      <image type="source">https://raw.githubusercontent.com/prasser/arx-flathub/master/arx-on-linux.png</image>
+      <image type="source">https://raw.githubusercontent.com/flathub/org.deidentifier.arx/master/arx-on-linux.png</image>
     </screenshot>
   </screenshots>
   <releases>
