@@ -3,8 +3,8 @@
   <!--Created with jdAppdataEdit 3.3-->
   <id>org.deidentifier.arx</id>
   <name>ARX</name>
-  <summary> Data Anonymization Tool </summary>
-  <developer_name>Fabian Prasser, Florian Kohlmayer</developer_name>
+  <summary>ARX Data Anonymization Tool </summary>
+  <developer_name>Fabian Prasser and contributors</developer_name>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>Apache-2.0</project_license>
   <update_contact>tobiasmue@gnome.org</update_contact>
@@ -29,6 +29,8 @@ ARX is able to handle large datasets on commodity hardware and it features an in
   </screenshots>
   <releases>
     <release version="v3.9.1" date="2022-11-27"/>
+       <url>https://github.com/arx-deidentifier/arx/releases/tag/v3.9.1</url>
+    </release>
     <release version="v3.8.0" date="2019-11-17" type="stable">
       <url>https://github.com/arx-deidentifier/arx/releases/tag/v3.8.0</url>
     </release>
