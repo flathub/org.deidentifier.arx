@@ -2,12 +2,12 @@
 Type=Application
 Version=1.0
 Name=ARX
-GenericName=Arx Data Anonymisation Tool
-Comment=Anonymizing sensitive personal data
+GenericName=Arx Data Anonymization Tool
+Comment=A comprehensive software for anonymizing sensitive personal data
 Icon=org.deidentifier.arx
 Exec=arx %U
 Terminal=false
 #MimeType=images
 StartupNotify=true
 Categories=Development;Science;Utility
-Keywords=anonymisation;k-anonymity;medical
+Keywords=anonymization;k-anonymity;differential privacy
