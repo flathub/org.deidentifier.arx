@@ -23,8 +23,8 @@ ARX is able to handle large datasets on commodity hardware and it features an in
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>jExifToolGUI on GNU/Linux</caption>
-      <image type="source">https://arx.deidentifier.org/wp-content/uploads/2015/12/front_page_screen_2.png</image>
+      <caption>ARX on GNU/Linux</caption>
+      <image type="source">https://raw.githubusercontent.com/prasser/arx-flathub/master/arx-on-linux.png</image>
     </screenshot>
   </screenshots>
   <releases>
