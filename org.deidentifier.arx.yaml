@@ -3,7 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: '46'
 sdk: org.gnome.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.openjdk17
+  - org.freedesktop.Sdk.Extension.openjdk
 
 command: arx
 finish-args:
@@ -17,12 +17,12 @@ finish-args:
 
 build-options:
   env:
-    JAVA_HOME: /usr/lib/sdk/openjdk17/
+    JAVA_HOME: /usr/lib/sdk/openjdk/
 modules:
   - name: openjdk
     buildsystem: simple
     build-commands:
-      - /usr/lib/sdk/openjdk17/install.sh
+      - /usr/lib/sdk/openjdk/install.sh
 
   - name: arx-binary
     buildsystem: simple
