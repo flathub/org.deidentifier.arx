@@ -51,8 +51,8 @@ modules:
         path: org.deidentifier.arx.svg
 
       - type: file
-        url: https://github.com/arx-deidentifier/arx/releases/download/v3.9.1/arx-3.9.1-gtk-64.jar
-        sha256: 124c59e729b120a85c901eb1dd464e86eeaf6da09d1a77ca72564c36d02bd190
+        url: https://github.com/arx-deidentifier/arx/releases/download/v3.9.2/arx-3.9.2-gtk-64.jar
+        sha256: e50a472b7aad158cae7fef86fb4baf85a1f5c2982a97ab8c77e73cf9535368b7
         dest-filename: arx-gtk-64.jar
         x-checker-data:
           type: json
