@@ -1,0 +1,106 @@
+name: Refresh librsvg cargo-sources.json
+
+# librsvg is vendored as Rust crates (cargo-sources.json, generated from its
+# Cargo.lock) so the Flatpak build stays offline. flathubbot opens a PR from
+# an update-* branch on this repo whenever x-checker-data notices a new
+# librsvg release, but it only touches the source url/sha256 in the
+# manifest - it has no idea cargo-sources.json exists and needs to move
+# with it. This regenerates that file against the PR's own librsvg source
+# and pushes a follow-up commit onto the same branch so the PR is
+# buildable as-is.
+#
+# Runs only for PRs opened by flathubbot, since that's a same-repo branch
+# (not a fork) flathubbot already has push access to, and it's the only
+# thing expected to touch the librsvg source url. Not a schedule: the
+# checker already tells us exactly when librsvg moved, so there's no need
+# to poll separately.
+#
+# flatpak-cargo-generator.py runs arbitrary logic to resolve crate
+# checksums, so it's pinned to a commit rather than fetched from a
+# floating branch.
+
+"on":
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - org.deidentifier.arx.yaml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-librsvg-cargo-sources-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  CARGO_GENERATOR_COMMIT: 41c20aa10819cdb2a4f3ca171758a96d1955c018
+
+jobs:
+  refresh:
+    if: github.event.pull_request.user.login == 'flathubbot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install generator dependencies
+        run: pip install --quiet aiohttp tomlkit pyyaml
+
+      - name: Fetch flatpak-cargo-generator.py
+        run: |
+          curl -fsSL -o flatpak-cargo-generator.py \
+            "https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/${CARGO_GENERATOR_COMMIT}/cargo/flatpak-cargo-generator.py"
+
+      - name: Extract librsvg source url from the manifest
+        id: librsvg
+        run: |
+          url=$(python3 -c "
+          import yaml
+          manifest = yaml.safe_load(open('org.deidentifier.arx.yaml'))
+          for module in manifest['modules']:
+              if isinstance(module, dict) and module.get('name') == 'librsvg':
+                  for source in module['sources']:
+                      if isinstance(source, dict) and source.get('type') == 'archive':
+                          print(source['url'])
+          ")
+          if [ -z "$url" ]; then
+            echo "Could not find the librsvg archive source in the manifest" >&2
+            exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Download librsvg source and extract Cargo.lock
+        run: |
+          curl -fsSL -o librsvg.tar.xz "${{ steps.librsvg.outputs.url }}"
+          tar xf librsvg.tar.xz --wildcards '*/Cargo.lock' -O > Cargo.lock
+
+      - name: Regenerate cargo-sources.json
+        run: python3 flatpak-cargo-generator.py Cargo.lock -o cargo-sources.json.new
+
+      - name: Commit if it changed
+        run: |
+          rm -f flatpak-cargo-generator.py librsvg.tar.xz Cargo.lock
+          if diff -q cargo-sources.json cargo-sources.json.new > /dev/null; then
+            echo "cargo-sources.json already matches this PR's librsvg release."
+            rm cargo-sources.json.new
+            exit 0
+          fi
+          mv cargo-sources.json.new cargo-sources.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cargo-sources.json
+          git commit -m "$(cat <<'EOF'
+          Regenerate cargo-sources.json for librsvg update
+
+          Follow-up to flathubbot's source bump in this PR: cargo-sources.json
+          is generated from librsvg's Cargo.lock and doesn't move on its own.
+          EOF
+          )"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
