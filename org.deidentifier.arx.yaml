@@ -1,6 +1,6 @@
 app-id: org.deidentifier.arx
 runtime: org.gnome.Platform
-runtime-version: '48'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk
@@ -14,6 +14,8 @@ finish-args:
   - --share=network
   - --env=PATH=/usr/bin:/app/bin:/app/jre/bin
   - --env=JAVA_HOME=/app/jre
+  - --env=GDK_PIXBUF_MODULE_FILE=/app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+  - --env=LD_LIBRARY_PATH=/app/lib
 
 build-options:
   env:
@@ -23,6 +25,34 @@ modules:
     buildsystem: simple
     build-commands:
       - /usr/lib/sdk/openjdk/install.sh
+
+  - name: gdk-pixbuf-loaders
+    buildsystem: meson
+    config-opts:
+      - -Dpng=enabled
+      - -Dgif=enabled
+      - -Djpeg=disabled
+      - -Dtiff=disabled
+      - -Dothers=disabled
+      - -Dbuiltin_loaders=none
+      - -Dintrospection=disabled
+      - -Dman=false
+      - -Dgtk_doc=false
+      - -Dtests=false
+      - -Dinstalled_tests=false
+      - -Dgio_sniffing=false
+    post-install:
+      - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz
+        sha256: b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7
+        x-checker-data:
+          type: gnome
+          name: gdk-pixbuf
+          stable-only: true
+          versions:
+            "<": "2.44.0"
 
   - name: arx-binary
     buildsystem: simple
