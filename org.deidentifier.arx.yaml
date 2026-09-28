@@ -44,24 +44,25 @@ modules:
       - -Dinstalled_tests=false
       - -Dgio_sniffing=false
     post-install:
-      - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+      - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so
+        /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz
-        sha256: b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7
+        url: https://download.gnome.org/sources/gdk-pixbuf/2.43/gdk-pixbuf-2.43.5.tar.xz
+        sha256: a723ec2428427f857b8727dfbbe9dab77142a13fb6d0c47f95222251ae36ff15
         x-checker-data:
           type: gnome
           name: gdk-pixbuf
           stable-only: true
           versions:
-            "<": "2.44.0"
+            <: 2.44.0
 
   - name: librsvg
     buildsystem: meson
     build-options:
       env:
         CARGO_HOME: /run/build/librsvg/cargo
-        CARGO_NET_OFFLINE: "true"
+        CARGO_NET_OFFLINE: 'true'
     config-opts:
       - -Dpixbuf=enabled
       - -Dpixbuf-loader=enabled
@@ -72,7 +73,9 @@ modules:
       - -Dtests=false
       - -Davif=disabled
     post-install:
-      - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader_svg.so > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+      - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so
+        /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader_svg.so
+        > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
     sources:
       - type: archive
         url: https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.2.tar.xz
