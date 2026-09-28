@@ -53,6 +53,7 @@ modules:
           type: gnome
           name: gdk-pixbuf
           stable-only: true
+          version-scheme: odd-minor-is-unstable
           versions:
             "<": "2.44.0"
 
@@ -75,8 +76,8 @@ modules:
       - gdk-pixbuf-query-loaders /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so /app/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader_svg.so > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.2.tar.xz
-        sha256: 852b18e1a00b8605528825a27dc7748bff2a5dd254028f59dc22a34ea57e81b6
+        url: https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.1.tar.xz
+        sha512: f98bfe16e40872b798705d148931ca00a5f20394f8b1fd28217eebb9a551cb681d176eb56acf8e70e24db47263d227f5cd1b7807f99d5c1457ca8dcea072fa0e
         x-checker-data:
           type: gnome
           name: librsvg
