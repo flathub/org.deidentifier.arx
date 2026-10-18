@@ -79,8 +79,8 @@ modules:
         > /app/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.2.tar.xz
-        sha256: 852b18e1a00b8605528825a27dc7748bff2a5dd254028f59dc22a34ea57e81b6
+        url: https://download.gnome.org/sources/librsvg/2.63/librsvg-2.63.3.tar.xz
+        sha256: 55311c2293612e4a2e38cd9bdb6160a1c85c158adc7c97e423e1e65949afb6a4
         x-checker-data:
           type: gnome
           name: librsvg
